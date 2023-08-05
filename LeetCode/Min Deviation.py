@@ -23,3 +23,34 @@ class Solution:
                 break
             # print(mx,diff,mnn)
         return diff
+
+#Another solution
+class Solution:
+    def minimumDeviation(self, nums):
+        upper_odd = 1
+        lower = 1000000000
+        for num in nums:
+            upper_odd = max(upper_odd, num // (num & (-num)))
+            lower = min(lower, num << (num & 1))
+        lower = min(lower, upper_odd)
+        lower2 = lower << 1
+        if lower2 <= upper_odd:
+            return upper_odd - lower
+        arr = [upper_odd]
+        for num in nums:
+            a = num << 1
+            while a >= lower2:
+                a >>= 1
+            if a > upper_odd:
+                arr.append(a)
+        arr.sort()
+        div = arr[-1] - lower
+        for i in range(len(arr) - 1, 0, -1):
+            div = min(div, arr[i-1] - (arr[i] >> 1))
+        return div
+
+    def print_arr(self, nums):
+        for num in nums:
+            print(num, end=", ")
+        print()
+
