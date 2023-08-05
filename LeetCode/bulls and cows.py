@@ -20,3 +20,30 @@ class Solution:
                 c+=min(j,g[i])
  
         return str(b)+"A"+str(c)+"B"
+#Another way to do same task using HAsh
+class Solution:
+    def getHint(self, secret: str, guess: str) -> str:
+        a={}
+        b={}
+        for i in secret:            #Frequency of digits in secret
+            if i in a:
+                a[i]+=1
+            else:
+                a[i]=1
+        for i in guess:             #Frequency of digits in guess
+            if i in b:
+                b[i]+=1
+            else:
+                b[i]=1
+        bulls=0
+        for i in range(len(secret)):    #Counting bulls
+            if secret[i]==guess[i]:
+                bulls+=1
+                a[secret[i]]-=1
+                b[secret[i]]-=1
+        cows=0
+        for i in a:                     #Counting cows
+            if i in b:
+                cows+=min(a[i],b[i])
+        res=str(bulls)+"A"+str(cows)+"B"
+        return res
