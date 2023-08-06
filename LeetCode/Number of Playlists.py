@@ -14,5 +14,5 @@ class Solution:
         if self.dp[i][j] >= 0:
             return self.dp[i][j]
         self.dp[i][j] = self.playlists(i - 1, j - 1) * (self.n - (j - 1))
-
+        self.dp[i][j] += self.playlists(i - 1, j) * max(0, j - self.k)
         return self.dp[i][j] % (10**9+7)
