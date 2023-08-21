@@ -1,20 +1,25 @@
 class Solution:
-    def isMatch(self, s: str, p: str) -> bool:
-        n = len(s);
-        m = len(p);
-        dp = [[0]*(m+1) for _ in range(0,n+1)]
+  def isMatch(self, s: str, p: str) -> bool:
+    m = len(s)
+    n = len(p)
+    # dp[i][j] := True if s[0..i) matches p[0..j)
+    dp = [[False] * (n + 1) for _ in range(m + 1)]
+    dp[0][0] = True
 
-        dp[0][0] = 1
-        for j in range(1,m+1):
-            if(p[j-1] == '*' ): dp[0][j] = dp[0][j-1];
+    def isMatch(i: int, j: int) -> bool:
+      return j >= 0 and p[j] == '.' or s[i] == p[j]
 
-        for i in range(1,n+1):
-            for j in range(1,m+1):
-                if(s[i-1] == p[j-1] or p[j-1] == '.' ): dp[i][j] = dp[i-1][j-1]
-                elif( p[j-1] == '*' ):
-                    # did we match without the chracter in s or did we match with the character before '*' in p
-                    dp[i][j] = dp[i-1][j] or dp[i][j-1]
+    for j, c in enumerate(p):
+      if c == '*' and dp[0][j - 1]:
+        dp[0][j + 1] = True
 
-        return dp[-1][-1]
-    
-               
+    for i in range(m):
+      for j in range(n):
+        if p[j] == '*':
+          noRepeat = dp[i + 1][j - 1]  # Min index of '*' is 1
+          doRepeat = isMatch(i, j - 1) and dp[i][j + 1]
+          dp[i + 1][j + 1] = noRepeat or doRepeat
+        elif isMatch(i, j):
+          dp[i + 1][j + 1] = dp[i][j]
+
+    return dp[m][n]
