@@ -44,18 +44,6 @@ class FrontMiddleBackQueue:
 
     def rebalance(self):
         if len(self.q1) > len(self.q2):
-            self.q2.appendleft(self.q1.popleft())
-        if len(self.q2) > len(self.q1):
+            self.q2.appendleft(self.q1.pop())
+        if len(self.q2) > len(self.q1) +1:
             self.q1.append(self.q2.popleft())
-
-        
-
-
-# Your FrontMiddleBackQueue object will be instantiated and called as such:
-# obj = FrontMiddleBackQueue()
-# obj.pushFront(val)
-# obj.pushMiddle(val)
-# obj.pushBack(val)
-# param_4 = obj.popFront()
-# param_5 = obj.popMiddle()
-# param_6 = obj.popBack()
