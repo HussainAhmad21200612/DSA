@@ -7,7 +7,7 @@ class Solution:
 
     for i in range(n):
       sumRow0 -= grid[0][i]
-      ans = min(ans, min(sumRow0, sumRow1))
+      ans = min(ans, max(sumRow0, sumRow1))
       sumRow1 += grid[1][i]
 
     return ans
