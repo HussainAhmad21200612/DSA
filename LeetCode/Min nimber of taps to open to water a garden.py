@@ -3,9 +3,9 @@ class Solution:
     nums = [0] * (n + 1)
 
     for i, range_ in enumerate(ranges):
-      l = max(0, range_)
+      l = max(0, i-range_)
       r = min(n, range_ + i)
-      nums[l] = max(nums[l], r)
+      nums[l] = max(nums[l], r-l )
 
     ans = 0
     end = 0
