@@ -4,7 +4,7 @@ class Solution {
     if (desiredTotal <= 0)
       return true;
 
-    const int sum = maxChoosableInteger * (maxChoosableInteger) / 2;
+    const int sum = maxChoosableInteger * (maxChoosableInteger + 1) / 2;
     if (sum < desiredTotal)
       return false;
 
@@ -24,7 +24,7 @@ class Solution {
     for (int i = 1; i <= n; ++i) {
       if (state & 1 << i) 
         continue;
-      if (!dp(total - i, state & 1 << i, n))
+      if (!dp(total - i, state | 1 << i, n))
         return true;
     }
 
