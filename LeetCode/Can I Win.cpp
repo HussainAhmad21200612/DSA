@@ -1,33 +1,31 @@
 class Solution {
  public:
   bool canIWin(int maxChoosableInteger, int desiredTotal) {
-    if (desiredTotal <= 0)
-      return true;
+		// sanity check
+		if (desiredTotal<=maxChoosableInteger)
+				return true;
+		if (desiredTotal>(maxChoosableInteger*(maxChoosableInteger+1))/2)
+				return false;
 
-    const int sum = maxChoosableInteger * (maxChoosableInteger + 1) / 2;
-    if (sum < desiredTotal)
-      return false;
+		unordered_map<int, bool> memo;
+		return helper(desiredTotal, memo, 0, maxChoosableInteger);
+}
 
-    return dp(desiredTotal, 0, maxChoosableInteger);
-  }
+bool helper (int desiredTotal, unordered_map<int, bool>& memo, int key, int& M) {
+		if (desiredTotal<=0)
+				return false;
 
- private:
-  unordered_map<int, bool> memo; 
+		if (memo.find(key) != memo.end())
+				return memo[key];
 
-  // state: record integers that have been chosen
-  bool dp(int total, int state, int n) {
-    if (total <= 0)
-      return false;
-    if (const auto it = memo.find(state); it != memo.cend())
-      return it->second;
+		for (int i=1; i<=M; i++) {
+				if (!(key&1<<i) && !helper(desiredTotal-i, memo, key|1<<i, M)) {
+						memo[key] = true;
+						return memo[key];
+				}
+		}
 
-    for (int i = 1; i <= n; ++i) {
-      if (state & 1 << i) 
-        continue;
-      if (!dp(total - i, state | 1 << i, n))
-        return true;
-    }
-
-    return memo[state] = false;
-  }
+		memo[key] = false;
+		return memo[key];
+}
 };
