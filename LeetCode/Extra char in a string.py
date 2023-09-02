@@ -6,7 +6,7 @@ class Solution:
         
         for i in range(1, n + 1):
             for word in dictionary:
-                if i >= len(word) and s[len(word)-1:i] == word:
+                if i >= len(word) and s[i-len(word):i] == word:
                     dp[i] = min(dp[i], dp[i - len(word)])
             
             dp[i] = min(dp[i], dp[i - 1] + 1)
