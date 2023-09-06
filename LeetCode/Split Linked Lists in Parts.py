@@ -14,7 +14,7 @@ class Solution:
         res = [None for _ in range(k)]
         for i in range(k):
             head = cur
-            for j in range(width + (i <= remainder) - 1):
+            for j in range(width + (i < remainder) - 1):
                 if cur:
                     cur = cur.next
             if cur:
